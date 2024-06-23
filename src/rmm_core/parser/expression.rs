@@ -69,10 +69,10 @@ impl ExpressaoAtribuicao {
 impl std::fmt::Display for ExpressaoAtribuicao {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ExpressaoAtribuicao::Number { tipo, id, value } => write!(f, "{tipo} {id} -> {value}"),
-            ExpressaoAtribuicao::Other { tipo, id, value } => write!(f, "{tipo} {id} -> {value}"),
-            ExpressaoAtribuicao::Char { tipo, id, value } => write!(f, "{tipo} {id} -> {value}"),
-            ExpressaoAtribuicao::Reasign { id, value } => write!(f, "{id} -> {value}"),
+            ExpressaoAtribuicao::Number { tipo, id, value } => write!(f, "ATRIBUICAO ({tipo} {id} -> {value})"),
+            ExpressaoAtribuicao::Other { tipo, id, value } => write!(f, "ATRIBUICAO ({tipo} {id} -> {value})"),
+            ExpressaoAtribuicao::Char { tipo, id, value } => write!(f, "ATRIBUICAO ({tipo} {id} -> {value})"),
+            ExpressaoAtribuicao::Reasign { id, value } => write!(f, "ATRIBUICAO ({id} -> {value})"),
         }
     }
 }
@@ -234,9 +234,9 @@ impl Expressao {
 impl std::fmt::Display for Expressao {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Expressao::Relacional(val) => write!(f, "-{val}-"),
-            Expressao::Aritmetica(val) => write!(f, "-{val}-"),
-            Expressao::Atribuicao(val) => write!(f, "-{val}-"),
+            Expressao::Relacional(val) => write!(f, "{val}"),
+            Expressao::Aritmetica(val) => write!(f, "{val}"),
+            Expressao::Atribuicao(val) => write!(f, "{val}"),
         }
     }
 }
@@ -634,10 +634,10 @@ impl Declaracao {
 impl std::fmt::Display for Declaracao {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Declaracao::Expressao(val) => write!(f, "!!{val}!!"),
-            Declaracao::Condicional(val) => write!(f, "!!{val}!!"),
-            Declaracao::Loop(val) => write!(f, "!!{val}!!"),
-            Declaracao::Io(val) => write!(f, "!!{val}!!"),
+            Declaracao::Expressao(val) => write!(f, "{val}\n"),
+            Declaracao::Condicional(val) => write!(f, "{val}\n"),
+            Declaracao::Loop(val) => write!(f, "{val}\n"),
+            Declaracao::Io(val) => write!(f, "{val}\n"),
         }
     }
 }
@@ -661,11 +661,10 @@ impl DeclaracaoCondicionalIf {
 }
 impl std::fmt::Display for DeclaracaoCondicionalIf {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let result = write!(f, "IF({}), begin\n", self.expr);
+        let result = write!(f, "IF({})\n", self.expr);
         for d in &self.decls {
-            println!("    {d}");
+            write!(f, "{d}").unwrap();
         }
-        println!("end");
         
         result
     }
@@ -684,12 +683,11 @@ impl DeclaracaoCondicionalElse {
     }
 }
 impl std::fmt::Display for DeclaracaoCondicionalElse {
-    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        println!("ELSE begin");
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "ELSE\n").unwrap();
         for d in &self.0 {
-            println!("    {d}");
+            write!(f, "{d}").unwrap();
         }
-        println!("end");
         
         Ok(())
     }
@@ -756,23 +754,19 @@ impl DeclaracaoLoop {
     }
 }
 impl std::fmt::Display for DeclaracaoLoop {
-    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             DeclaracaoLoop::For { id, begin, end, decls } => {
-                println!("FOR {id} in {begin}..{end} begin");
+                write!(f, "FOR ({id}: {begin}..{end})\n").unwrap();
                 for d in decls {
-                    println!("    {d}");
+                    write!(f, "{d}").unwrap();
                 }
-
-                println!("end");
             },
             DeclaracaoLoop::While { condition, decls } => {
-                println!("WHILE ({condition}) begin");
+                write!(f, "WHILE ({condition})\n").unwrap();
                 for d in decls {
-                    println!("    {d}");
+                    write!(f, "{d}").unwrap();
                 }
-                
-                println!("end");
             },
         }
         
@@ -841,13 +835,11 @@ impl EntryPoint {
     }
 }
 impl std::fmt::Display for EntryPoint {
-    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        println!("MAIN begin");
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "MAIN\n").unwrap();
         for d in &self.0 {
-            println!("{d}");
+            write!(f, "{d}").unwrap();
         }
-        
-        println!("end");
         
         Ok(())
     }

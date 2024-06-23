@@ -26,11 +26,35 @@ fn main() {
 
         // Compilando
         let tokens = rmm_core::tokenize(&conteudo);
+        let mut tokens_string = String::new();
+        tokens.iter()
+            .for_each(|t| {
+                tokens_string = std::format!("{}\n{:?}", tokens_string, t);
+            });
+
         let mut parser = Parser::new(tokens);
         parser.parse();
         let conteudo = parser.translate();
 
-        // Criando o arquivo .c
+        // ========================================================================================================================================
+        // ------------------------------------------------------ ESCREVENDO OS SIMBOLOS ----------------------------------------------------------
+        // ========================================================================================================================================
+
+        let tokens_file_name = "tokens_gerados.txt";
+        let expr_file_name = "expressoes_geradas.txt";
+        let simbolos_dir_path = "simbolos_gerados";
+
+        std::fs::create_dir_all(simbolos_dir_path).unwrap();
+        
+        let mut tokens_file = std::fs::File::create(std::format!("{}/{}", simbolos_dir_path, tokens_file_name)).unwrap();
+        tokens_file.write_all(tokens_string.as_bytes()).unwrap();
+
+        let mut expr_file = std::fs::File::create(std::format!("{}/{}", simbolos_dir_path, expr_file_name)).unwrap();
+        expr_file.write_all(std::format!("{parser}").as_bytes()).unwrap();
+
+        // ========================================================================================================================================
+        // ------------------------------------------------------ COMPILANDO PARA C ---------------------------------------------------------------
+        // ========================================================================================================================================
         let rmm_file_name = path.file_stem().unwrap().to_str().unwrap();
         let c_file_name = std::format!("{}.c", rmm_file_name);
         let c_dir_path = "rmm_target";
