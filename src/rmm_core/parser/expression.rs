@@ -246,8 +246,7 @@ impl ExpressaoPrimaria {
     where
         I: Clone + Iterator<Item = &'a Token>
     {
-        if let Some(token) = tokens.0.next() { 
-            match token {
+        if let Some(token) = tokens.0.next() { match token {
             Token::CONSTANTE_CHAR(_)
             | Token::CONSTANTE_INT(_)
             | Token::CONSTANTE_FLOAT(_) => Some(Self::Const(token.clone())),
@@ -262,6 +261,19 @@ impl ExpressaoPrimaria {
                 else {
                     None
                 }
+            },
+
+            Token::SUBTRACAO => {
+                if let Some(token) = tokens.0.next() {
+                    match token {
+                        Token::CONSTANTE_INT(val) => return Some(Self::Const(Token::CONSTANTE_INT(std::format!("-{val}")))),
+                        Token::CONSTANTE_FLOAT(val) => return Some(Self::Const(Token::CONSTANTE_FLOAT(std::format!("-{val}")))),
+                        
+                        _ => (),
+                    }
+                }
+                
+                None
             },
 
             _ => None,
