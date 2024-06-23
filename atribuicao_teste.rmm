@@ -1,0 +1,6 @@
+main begin
+i32 a -> 123 + 2;
+f32 b -> 11 - 2;
+char c -> 'c';
+i32 j -> a;
+end
