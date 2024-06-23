@@ -1,5 +1,3 @@
-#[allow(non_camel_case_types)]
-
 mod tokenizer;
 pub(crate) mod parser;
 
@@ -40,6 +38,7 @@ const ASPAS_SIMPLES: &str = "'";
 const ABRE_PARENTESE: &str = "(";
 const FECHA_PARENTESE: &str = ")";
 
+#[allow(non_camel_case_types)]
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) enum Token {
     COMECO,

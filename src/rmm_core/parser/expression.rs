@@ -5,7 +5,7 @@ use std::iter::Peekable;
 pub(super) struct TokenIter<'a, I: Iterator<Item = &'a Token>>(pub(super) Peekable<I>);
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// -------------------------------------- Declaracoes -------------------------------------
+// -------------------------------------- Expressoes -------------------------------------
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #[derive(Debug, Clone)]
@@ -814,7 +814,7 @@ impl DeclaracaoIo {
                     _ => panic!("Tipo especificado em read() eh invalido!"),
                 };
                 
-                std::format!("printf(\"{}\", {});", tipo, expr.translate())
+                std::format!("printf(\"{}\\n\", {});", tipo, expr.translate())
             }
         }
     }

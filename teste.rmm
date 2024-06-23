@@ -1,3 +1,79 @@
 main begin
-    i32 a -> -1;
+    i32 a -> 10;
+    i32 b -> 20;
+    f32 c -> 30.5;
+    char d -> 'd';
+
+    i32 add -> (a + b);
+    i32 sub -> (b - a);
+    i32 mul -> (a * b);
+    i32 div -> (b / a);
+    i32 mod -> (b % a);
+    f32 addfloat -> (c + 10.5);
+    f32 subfloat -> (c - 5.25);
+    f32 mulfloat -> (c * 2.0);
+    f32 divfloat -> (c / 2.0);
+    char nextchar -> 'a';
+
+    while (a < b) begin
+        for (i: a..b) begin
+            write((i * -1), i32);
+            write((i + 1), i32);
+            write((i - 1), i32);
+            write((i * 2), i32);
+            write((i / 2), i32);
+        end
+
+        i32 x -> (a + b);
+        f32 y -> (c / 2.0);
+        char e -> d;
+
+        ?(a > b) begin
+            write((a - b), i32);
+            write(y, f32);
+        end
+        ~? begin
+            write(c, f32);
+        end
+
+        a -> (a + 1);
+        b -> (b - 1);
+    end
+
+    i32 complex1 -> (((a + b) * (b - a)) / (a % 2));
+    f32 complex2 -> (((c + 10.5) - 5.25) * 2.0) / 2.0;
+    i32 nested1 -> (add * (sub + mul) - (div % mod));
+    f32 nested2 -> (addfloat / (subfloat + mulfloat) - divfloat);
+
+    while ((a < (b + 10)) & (c > (20.0 + 10.5))) begin
+        a -> (a + 2);
+        b -> (b - 2);
+        c -> (c - 1.5);
+    end
+
+    i32 finalcheck -> ((a + b) - (a * b) + (a / b) % (a - b));
+    f32 finalfloat -> ((c * 2.0) + (c / 2.0) - 10.5);
+
+    i32 bigexpression -> (((a * 2) + (b / 2) - (a % b) + (b * 2)) / (a + b - (a * b)));
+    f32 bigfloatexpression -> (((c + 5.0) * 2.0 - (c / 2.0)) + 10.5);
+
+    write(add, i32);
+    write(sub, i32);
+    write(mul, i32);
+    write(div, i32);
+    write(mod, i32);
+    write(addfloat, f32);
+    write(subfloat, f32);
+    write(mulfloat, f32);
+    write(divfloat, f32);
+    write(nextchar, char);
+    write(d, char);
+    write(complex1, i32);
+    write(complex2, f32);
+    write(nested1, i32);
+    write(nested2, f32);
+    write(finalcheck, i32);
+    write(finalfloat, f32);
+    write(bigexpression, i32);
+    write(bigfloatexpression, f32);
 end
